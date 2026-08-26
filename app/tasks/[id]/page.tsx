@@ -1,53 +1,36 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { getTasks } from "@/app/utils/storage";
-import { Task } from "@/types/task";
+import { getTasks } from "@/lib/task-storage";
+import EditTaskForm from "./EditTaskForm";
+import { Button } from "@/components/ui/button";
 
-export default function Page() {
-  const params = useParams();
+type Props = {
+  params: Promise<{
+    id: string;
+  }>;
+};
 
-  const [task, setTask] = useState<Task | null>(null);
-  const [loading, setLoading] = useState(true);
+export default async function Page({ params }: Props) {
+  const { id } = await params;
 
-  useEffect(() => {
-    const tasks = getTasks();
+  const tasks = getTasks();
 
-    const foundTask = tasks.find(
-      (t) => t.id === Number(params.id)
-    );
-
-    if (foundTask) {
-      setTask(foundTask);
-    }
-
-    setLoading(false);
-  }, [params.id]);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const task = tasks.find(
+    (task) => task.id === Number(id)
+  );
 
   if (!task) {
     return (
       <main className="p-5">
-        <h1>Task not found</h1>
-        <Link href="/">Back</Link>
+        <h1 className="text-xl font-bold mb-4">
+          Task not found
+        </h1>
+
+        <Link href="/">
+          <Button>Back</Button>
+        </Link>
       </main>
     );
   }
 
-  return (
-    <main className="p-5">
-      <h1>{task.title}</h1>
-
-      <p>{task.description}</p>
-
-      <p>Status: {task.status}</p>
-
-      <Link href="/">Back</Link>
-    </main>
-  );
+  return <EditTaskForm task={task} />;
 }

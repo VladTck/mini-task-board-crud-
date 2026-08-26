@@ -1,38 +1,40 @@
+"use client";
+
 import Link from "next/link";
 import { Task } from "@/types/task";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { deleteTask } from "@/app/actions/tasks";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   task: Task;
+  onDelete: (id: number) => void;
 };
 
-export default function TaskCard({ task }: Props) {
+export default function TaskCard({ task, onDelete }: Props) {
+  async function handleDelete() {
+    await deleteTask(task.id);
+    onDelete(task.id);
+  }
+
   return (
-    <Card className="mb-3">
-      <CardHeader>
-        <CardTitle>{task.title}</CardTitle>
-      </CardHeader>
+    <div className="border p-3 mb-3">
+      <h2 className="font-bold">{task.title}</h2>
 
-      <CardContent>
-        <p>{task.description}</p>
+      <p>{task.description}</p>
 
-        <p className="mt-2">
-          Status: {task.status}
-        </p>
+      <p>Status: {task.status}</p>
 
-        <Link
-          href={`/tasks/${task.id}`}
-          className={buttonVariants()}
-        >
-          View details
+      <div className="flex gap-2 mt-2">
+        <Link href={`/tasks/${task.id}`}>
+          <Button>
+            View details
+          </Button>
         </Link>
-      </CardContent>
-    </Card>
+
+        <Button onClick={handleDelete}>
+          Delete
+        </Button>
+      </div>
+    </div>
   );
 }

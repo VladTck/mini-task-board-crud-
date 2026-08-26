@@ -3,15 +3,17 @@ import { Task } from "@/types/task";
 
 type Props = {
   tasks: Task[];
+  onDelete: (id: number) => void;
 };
 
-export default function TaskList({ tasks }: Props) {
+export default function TaskList({ tasks, onDelete }: Props) {
   return (
     <div>
       {tasks.map((task) => (
         <TaskCard
           key={task.id}
           task={task}
+          onDelete={onDelete}
         />
       ))}
     </div>
