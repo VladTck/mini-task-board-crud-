@@ -1,0 +1,40 @@
+import { Task } from "../types/task";
+
+export const tasks: Task[] = [
+  {
+    id: 1,
+    title: "Learn Next.js",
+    description: "Read App Router documentation",
+    status: "todo",
+  },
+  {
+    id: 2,
+    title: "Create components",
+    description: "Split UI into components",
+    status: "in-progress",
+  },
+  {
+    id: 3,
+    title: "Write TypeScript types",
+    description: "Create Task interface",
+    status: "done",
+  },
+  {
+    id: 4,
+    title: "Implement filtering",
+    description: "Filter tasks by status",
+    status: "todo",
+  },
+  {
+    id: 5,
+    title: "Create task details page",
+    description: "Dynamic route",
+    status: "in-progress",
+  },
+  {
+    id: 6,
+    title: "Finish project",
+    description: "Run npm run build",
+    status: "done",
+  },
+];
